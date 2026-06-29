@@ -1,0 +1,1987 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>品牌创想空间 · HTAM BRAND AI</title>
+  <style>
+    :root {
+      --brand: #d71920;
+      --brand-dark: #b41118;
+      --brand-soft: #fff2f2;
+      --ink: #191919;
+      --muted: #777b80;
+      --muted-2: #a4a7ab;
+      --line: #e8e8e8;
+      --panel: #f7f7f7;
+      --white: #fff;
+      --shadow: 0 18px 60px rgba(30, 30, 30, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      min-height: 100vh;
+      color: var(--ink);
+      background: var(--white);
+      font-family: Inter, "PingFang SC", "Microsoft YaHei", system-ui, -apple-system, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button, textarea { font: inherit; }
+    button { color: inherit; }
+
+    .app {
+      display: grid;
+      grid-template-columns: 276px 1fr;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 0;
+      display: flex;
+      flex-direction: column;
+      align-self: start;
+      height: 100vh;
+      min-height: 100vh;
+      padding: 24px 18px 20px;
+      background: #f6f6f6;
+      border-right: 1px solid #ededed;
+      overflow: hidden;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      width: 100%;
+      margin: 0 0 28px;
+    }
+
+    .brand-logo {
+      display: block;
+      width: 64px;
+      height: auto;
+      flex: 0 0 auto;
+    }
+
+    .brand-name {
+      width: 120px;
+      min-width: 0;
+    }
+
+    .brand-name strong {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      color: #111;
+      font-size: 17px;
+      font-weight: 650;
+      line-height: 1.1;
+      white-space: nowrap;
+    }
+
+    .brand-name strong b {
+      font-weight: inherit;
+    }
+
+    .brand-name > span {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      margin-top: 7px;
+      color: #888;
+      font-size: 12.5px;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .brand-name > span b {
+      font-weight: 400;
+      letter-spacing: .1em;
+    }
+
+    .brand-name > span b:last-child {
+      margin-right: -.1em;
+    }
+
+    .nav {
+      display: grid;
+      gap: 5px;
+    }
+
+    .nav-item {
+      width: 100%;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 13px;
+      border: 0;
+      border-radius: 10px;
+      background: transparent;
+      color: #3d3f42;
+      font-size: 15px;
+      text-align: left;
+      cursor: pointer;
+      transition: 160ms ease;
+    }
+
+    .nav-item:hover { background: #ededed; }
+    .nav-item.active { background: #e9e9e9; color: #161616; font-weight: 600; }
+    .nav-item.active .icon { color: var(--brand); }
+
+    .icon {
+      width: 19px;
+      height: 19px;
+      flex: 0 0 auto;
+      color: #6c7074;
+    }
+
+    .nav-chevron {
+      width: 14px;
+      height: 14px;
+      margin-left: auto;
+      color: #96999c;
+      transition: transform 180ms ease;
+    }
+
+    .nav-item[aria-expanded="true"] .nav-chevron {
+      transform: rotate(90deg);
+    }
+
+    .project-submenu {
+      display: none;
+      gap: 3px;
+      margin: -1px 0 3px;
+    }
+
+    .project-submenu.open { display: grid; }
+
+    .project-child {
+      position: relative;
+      width: 100%;
+      min-height: 37px;
+      padding: 8px 12px 8px 45px;
+      border: 0;
+      border-radius: 9px;
+      color: #717477;
+      background: transparent;
+      font-size: 13px;
+      line-height: 1.4;
+      text-align: left;
+      cursor: pointer;
+      transition: 160ms ease;
+    }
+
+    .project-child::before {
+      content: "";
+      position: absolute;
+      left: 28px;
+      top: 50%;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #a5a8ab;
+      transform: translateY(-50%);
+    }
+
+    .project-child:hover { color: #333; background: #ededed; }
+
+    .project-child.active {
+      color: #282a2c;
+      background: #e9e9e9;
+      font-weight: 550;
+    }
+
+    .project-child.active::before { background: var(--brand); }
+
+    .project-question {
+      width: 100%;
+      min-height: 34px;
+      padding: 6px 12px 6px 57px;
+      border: 0;
+      border-radius: 8px;
+      color: #888b8e;
+      background: transparent;
+      font-size: 12.5px;
+      line-height: 1.45;
+      text-align: left;
+      cursor: pointer;
+      transition: 160ms ease;
+    }
+
+    .project-question:hover {
+      color: #444;
+      background: #ededed;
+    }
+
+    .project-question.active {
+      color: #333;
+      background: #e9e9e9;
+      font-weight: 550;
+    }
+
+    .sidebar-bottom {
+      margin-top: auto;
+      padding: 18px 7px 2px;
+      border-top: 1px solid #e6e6e6;
+    }
+
+    .workspace-logo {
+      display: block;
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
+
+    .main {
+      position: relative;
+      min-width: 0;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    .topbar {
+      position: absolute;
+      z-index: 5;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 0 28px;
+      border-bottom: 1px solid rgba(232, 232, 232, 0.75);
+      background: rgba(255, 255, 255, 0.82);
+      backdrop-filter: blur(14px);
+    }
+
+    .mode-switch {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px;
+      border-radius: 12px;
+      background: #f3f3f3;
+    }
+
+    .mode-button {
+      position: relative;
+      height: 36px;
+      padding: 0 20px;
+      border: 0;
+      border-radius: 9px;
+      color: #777;
+      background: transparent;
+      font-size: 14px;
+      cursor: pointer;
+      transition: 180ms ease;
+    }
+
+    .mode-button:hover { color: #222; }
+
+    .mode-button.active {
+      color: #1e1e1e;
+      background: #fff;
+      box-shadow: 0 2px 9px rgba(0, 0, 0, 0.07);
+      font-weight: 600;
+    }
+
+    .mode-button.active::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: -4px;
+      width: 18px;
+      height: 2px;
+      border-radius: 2px;
+      background: var(--brand);
+      transform: translateX(-50%);
+    }
+
+    .topbar-actions {
+      position: absolute;
+      right: 28px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .ghost-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      height: 36px;
+      padding: 0 13px;
+      border: 1px solid #e5e5e5;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.9);
+      color: #666;
+      font-size: 12px;
+      backdrop-filter: blur(8px);
+    }
+
+    .content {
+      min-height: 100vh;
+      padding: 104px 7vw 46px;
+    }
+
+    .content:has(.creation-page.active) {
+      padding-top: 88px;
+      padding-bottom: 28px;
+    }
+
+    .content:has(#skills.active) {
+      padding-top: 106px;
+      padding-bottom: 34px;
+    }
+
+    .view {
+      display: none;
+      min-height: calc(100vh - 150px);
+      animation: enter 260ms ease both;
+    }
+
+    .view.active { display: flex; }
+
+    @keyframes enter {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: none; }
+    }
+
+    .home {
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding-bottom: 5vh;
+    }
+
+    .hero-welcome {
+      position: relative;
+      width: min(900px, 100%);
+      display: grid;
+      grid-template-columns: 168px minmax(0, max-content);
+      align-items: center;
+      justify-content: center;
+      column-gap: 24px;
+      margin-bottom: 2px;
+    }
+
+    .hero-copy {
+      grid-column: 2;
+      min-width: 0;
+      text-align: center;
+    }
+
+    .hero-welcome:not(.no-mascot) .hero-copy {
+      max-width: 700px;
+    }
+
+    .hero-welcome.no-mascot {
+      display: block;
+      width: min(820px, 100%);
+    }
+
+    .hero-welcome.no-mascot .mascot-greeting { display: none; }
+
+    .mascot-greeting {
+      position: relative;
+      z-index: 0;
+      grid-column: 1;
+      grid-row: 1;
+      width: 158px;
+      align-self: center;
+      justify-self: end;
+      margin-top: -38px;
+      transform-origin: 56% 94%;
+      animation: mascotHello 3.8s ease-in-out infinite;
+      filter: drop-shadow(0 16px 20px rgba(30, 30, 30, 0.11));
+    }
+
+    .mascot-greeting::before {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      left: 50%;
+      top: 47%;
+      width: 142px;
+      height: 142px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 42% 42%,
+          rgba(255, 221, 133, .28) 0%,
+          rgba(255, 225, 169, .18) 36%,
+          rgba(236, 91, 91, .07) 63%,
+          rgba(255, 255, 255, 0) 76%);
+      filter: blur(11px);
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+    }
+
+    .mascot-greeting img {
+      position: relative;
+      z-index: 1;
+      display: block;
+      width: 100%;
+      height: auto;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    .hello-bubble {
+      position: absolute;
+      z-index: 2;
+      top: -4px;
+      right: -22px;
+      padding: 8px 12px;
+      border: 1px solid #f0d4d5;
+      border-radius: 14px 14px 14px 4px;
+      color: var(--brand);
+      background: rgba(255, 255, 255, 0.96);
+      box-shadow: 0 7px 24px rgba(60, 20, 20, 0.08);
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+      animation: bubbleFloat 3.8s ease-in-out infinite;
+    }
+
+    .mascot-spark {
+      position: absolute;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #f7bd3c;
+      box-shadow: 0 0 0 5px rgba(247, 189, 60, 0.13);
+      animation: sparkle 2.4s ease-in-out infinite;
+    }
+
+    .mascot-spark.one { top: 27%; left: 4px; }
+    .mascot-spark.two {
+      top: 12%;
+      right: 8px;
+      width: 5px;
+      height: 5px;
+      animation-delay: -1.1s;
+    }
+
+    @keyframes mascotHello {
+      0%, 58%, 100% { transform: translateY(0) rotate(0deg); }
+      66% { transform: translateY(-3px) rotate(-2deg); }
+      74% { transform: translateY(-4px) rotate(2.5deg); }
+      82% { transform: translateY(-2px) rotate(-1.5deg); }
+      90% { transform: translateY(0) rotate(0deg); }
+    }
+
+    @keyframes bubbleFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-3px); }
+    }
+
+    @keyframes sparkle {
+      0%, 100% { opacity: .35; transform: scale(.75); }
+      50% { opacity: 1; transform: scale(1.08); }
+    }
+
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 17px;
+      color: var(--brand);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 22px;
+      height: 2px;
+      background: var(--brand);
+    }
+
+    .eyebrow:empty { display: none; }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(32px, 3.2vw, 50px);
+      font-weight: 520;
+      letter-spacing: -0.05em;
+    }
+
+    .subtitle {
+      max-width: 660px;
+      margin: 17px auto 34px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.8;
+      text-align: center;
+    }
+
+    .subtitle:empty { display: none; }
+
+    .home.knowledge-page {
+      justify-content: flex-start;
+      padding-top: 5vh;
+    }
+
+    .knowledge-page .hero-welcome {
+      order: 1;
+      width: min(900px, 100%);
+      margin: 0 0 22px;
+    }
+
+    .knowledge-page .hero-copy {
+      text-align: left;
+    }
+
+    .knowledge-page h1 {
+      font-size: clamp(28px, 2.3vw, 36px);
+      font-weight: 520;
+      letter-spacing: -0.035em;
+    }
+
+    .knowledge-page .suggestions {
+      order: 2;
+      width: min(900px, 100%);
+      margin: 0 0 58px;
+      gap: 12px;
+    }
+
+    .knowledge-page .suggestion {
+      display: grid;
+      grid-template-rows: 24px 1fr;
+      align-content: start;
+      min-height: 112px;
+      padding: 18px 18px;
+      border: 1px solid #ececec;
+      border-radius: 14px;
+      background: #fff;
+      text-align: left;
+    }
+
+    .knowledge-page .suggestion:hover {
+      border-color: #e4c3c4;
+      background: #fffafa;
+      box-shadow: none;
+    }
+
+    .knowledge-page .suggestion strong {
+      display: block;
+      height: 24px;
+      margin: 0;
+      font-size: 15px;
+      line-height: 24px;
+    }
+
+    .knowledge-page .suggestion span {
+      display: block;
+      margin-top: 9px;
+      color: #929292;
+      font-size: 12px;
+      line-height: 20px;
+    }
+
+    .knowledge-page .composer {
+      order: 3;
+      width: min(900px, 100%);
+    }
+
+    .home.creation-page {
+      justify-content: flex-start;
+      padding-top: 2.2vh;
+      padding-bottom: 0;
+    }
+
+    .creation-page .hero-welcome {
+      margin-bottom: 0;
+    }
+
+    .creation-page h1 {
+      font-size: clamp(32px, 2.8vw, 44px);
+      line-height: 1.12;
+    }
+
+    .creation-page .subtitle {
+      margin: 12px auto 20px;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .creation-tabs {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      width: fit-content;
+      margin: 16px 0 2px 18px;
+      padding: 0;
+      background: transparent;
+    }
+
+    .creation-tabs.show { display: flex; }
+
+    .creation-page .creation-tabs {
+      margin: 12px 0 0 16px;
+    }
+
+    .creation-tab {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      height: 38px;
+      padding: 0 16px;
+      border: 0;
+      border-radius: 10px;
+      color: #858585;
+      background: #f4f4f4;
+      font-size: 12px;
+      cursor: pointer;
+      transition: 160ms ease;
+    }
+
+    .creation-tab svg { width: 15px; height: 15px; }
+    .creation-tab:hover { color: #333; }
+    .creation-tab.active {
+      color: var(--brand);
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
+      font-weight: 600;
+    }
+
+    .composer {
+      width: min(820px, 100%);
+      border: 1px solid #e1e1e1;
+      border-radius: 20px;
+      background: #fff;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      transition: 180ms ease;
+    }
+
+    .composer:focus-within {
+      border-color: #d4d4d4;
+      box-shadow: 0 20px 65px rgba(30, 30, 30, 0.11);
+      transform: translateY(-1px);
+    }
+
+    textarea {
+      display: block;
+      width: 100%;
+      height: 92px;
+      padding: 20px 22px 8px;
+      resize: none;
+      border: 0;
+      outline: 0;
+      color: #222;
+      background: transparent;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    textarea::placeholder { color: #b2b2b2; }
+
+    .creation-page textarea {
+      height: 66px;
+      padding: 14px 22px 4px;
+      font-size: 15px;
+    }
+
+    .composer-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px 12px 16px;
+    }
+
+    .creation-page .composer-actions {
+      padding: 5px 12px 10px 16px;
+    }
+
+    .action-group { display: flex; align-items: center; gap: 8px; }
+
+    .round-button {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border: 0;
+      border-radius: 50%;
+      background: transparent;
+      color: #777;
+      cursor: pointer;
+    }
+
+    .round-button:hover { background: #f1f1f1; }
+    .send { color: #fff; background: var(--brand); }
+    .send:hover { background: var(--brand-dark); }
+    .send svg { width: 17px; }
+
+    .context-select {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      height: 34px;
+      padding: 0 10px;
+      border: 0;
+      border-radius: 8px;
+      background: transparent;
+      color: #696b6e;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .context-select:hover { background: #f4f4f4; }
+
+    .template-toolbar {
+      width: min(820px, 100%);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+
+    .template-toolbar[hidden] { display: none; }
+
+    .creation-page .template-toolbar {
+      margin-top: 14px;
+    }
+
+    .template-title {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: #1f1f1f;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+
+    .template-next {
+      display: grid;
+      place-items: center;
+      width: 32px;
+      height: 32px;
+      border: 1px solid #e4e4e4;
+      border-radius: 10px;
+      color: #333;
+      background: rgba(255,255,255,.86);
+      box-shadow: 0 6px 16px rgba(0,0,0,.06);
+      cursor: pointer;
+      transition: 160ms ease;
+    }
+
+    .template-next:hover {
+      border-color: #d7d7d7;
+      background: #fff;
+      transform: translateX(2px);
+    }
+
+    .template-next svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .suggestions {
+      width: min(820px, 100%);
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .template-toolbar:not([hidden]) + .suggestions { margin-top: 12px; }
+
+    .creation-page .template-toolbar:not([hidden]) + .suggestions { margin-top: 10px; }
+
+    .suggestion {
+      min-height: 88px;
+      padding: 15px 16px;
+      border: 1px solid #ececec;
+      border-radius: 14px;
+      background: #fff;
+      text-align: left;
+      cursor: pointer;
+      transition: 160ms ease;
+    }
+
+    .suggestion:hover {
+      border-color: #e4c3c4;
+      background: #fffafa;
+      transform: translateY(-2px);
+    }
+
+    .suggestion strong { display: block; margin-bottom: 7px; font-size: 13px; }
+    .suggestion span { color: #929292; font-size: 12px; line-height: 1.55; }
+
+    .suggestions.image-gallery {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .suggestions.video-gallery {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .image-template-card {
+      position: relative;
+      height: 182px;
+      padding: 0;
+      border: 1px solid #ececec;
+      border-radius: 14px;
+      background: #fff;
+      overflow: hidden;
+      cursor: pointer;
+      transition: 160ms ease;
+      box-shadow: 0 6px 18px rgba(0,0,0,.04);
+    }
+
+    .creation-page .image-template-card {
+      height: clamp(174px, 20vh, 188px);
+      border-radius: 12px;
+    }
+
+    .image-template-card:hover {
+      border-color: #e4c3c4;
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(35, 35, 35, 0.09);
+    }
+
+    .image-template-card img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+    }
+
+    .image-template-card span {
+      position: absolute;
+      left: 8px;
+      right: 8px;
+      bottom: 8px;
+      padding: 6px 8px;
+      border-radius: 9px;
+      color: #fff;
+      background: rgba(0,0,0,.44);
+      font-size: 11px;
+      line-height: 1.2;
+      text-align: center;
+      backdrop-filter: blur(8px);
+    }
+
+    .video-gallery .image-template-card {
+      height: auto;
+      aspect-ratio: 16 / 9;
+    }
+
+    .creation-page .video-gallery .image-template-card {
+      height: auto;
+      aspect-ratio: 16 / 9;
+    }
+
+    .page {
+      width: min(1050px, 100%);
+      margin: 0 auto;
+      flex-direction: column;
+    }
+
+    .page-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 30px;
+    }
+
+    .page-header h2 { margin: 0 0 8px; font-size: 29px; font-weight: 560; letter-spacing: -0.03em; }
+    .page-header p { margin: 0; color: var(--muted); font-size: 14px; }
+
+    .skills-page {
+      width: min(1060px, 100%);
+      gap: 24px;
+    }
+
+    .skills-hero {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .skills-heading h2 {
+      margin: 0;
+      font-size: 28px;
+      font-weight: 650;
+      letter-spacing: -0.04em;
+    }
+
+    .skills-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .skill-filter-button {
+      height: 34px;
+      padding: 0 14px;
+      border: 0;
+      border-radius: 10px;
+      color: #74777b;
+      background: #f1f1f1;
+      font-size: 12.5px;
+      cursor: pointer;
+      transition: 160ms ease;
+    }
+
+    .skill-filter-button:hover {
+      color: #333;
+      background: #e9e9e9;
+    }
+
+    .skill-filter-button.active {
+      color: var(--brand);
+      background: #fff1f1;
+      font-weight: 650;
+    }
+
+    .create-task-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      height: 38px;
+      padding: 0 16px;
+      border: 0;
+      border-radius: 11px;
+      color: #fff;
+      background: var(--brand);
+      box-shadow: 0 10px 24px rgba(215, 25, 32, .18);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 160ms ease;
+    }
+
+    .create-task-button:hover {
+      background: var(--brand-dark);
+      transform: translateY(-1px);
+    }
+
+    .create-task-button svg {
+      width: 15px;
+      height: 15px;
+    }
+
+    .skill-center-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px 18px;
+    }
+
+    .skill-center-card {
+      display: grid;
+      grid-template-columns: 74px minmax(0, 1fr) 18px;
+      align-items: center;
+      gap: 20px;
+      min-height: 138px;
+      padding: 22px 24px;
+      border: 1px solid #ececec;
+      border-radius: 16px;
+      background: rgba(255,255,255,.94);
+      box-shadow: 0 8px 30px rgba(30,30,30,.045);
+      text-align: left;
+      cursor: pointer;
+      transition: 180ms ease;
+    }
+
+    .skill-center-card:hover {
+      border-color: #e2d2d3;
+      transform: translateY(-2px);
+      box-shadow: 0 16px 36px rgba(30,30,30,.075);
+    }
+
+    .skill-card-icon {
+      display: grid;
+      place-items: center;
+      width: 70px;
+      height: 70px;
+      border-radius: 13px;
+    }
+
+    .skill-card-icon svg {
+      width: 34px;
+      height: 34px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .skill-card-icon.blue { color: #2f80ed; background: linear-gradient(135deg, #eef6ff, #ddeaff); }
+    .skill-card-icon.green { color: #16b894; background: linear-gradient(135deg, #effcf7, #dff7ed); }
+    .skill-card-icon.cyan { color: #2b8ee9; background: linear-gradient(135deg, #eef9ff, #ddecff); }
+    .skill-card-icon.purple { color: #955ce9; background: linear-gradient(135deg, #f8f1ff, #eee2ff); }
+    .skill-card-icon.orange { color: #f28a24; background: linear-gradient(135deg, #fff7ef, #ffead8); }
+    .skill-card-icon.gray { color: #96999d; background: linear-gradient(135deg, #f6f6f6, #ececec); }
+
+    .skill-card-copy {
+      display: flex;
+      min-height: 70px;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .skill-card-copy h3 {
+      margin: 0 0 10px;
+      font-size: 17px;
+      font-weight: 650;
+      letter-spacing: -0.025em;
+    }
+
+    .skill-card-copy p {
+      margin: 0;
+      color: #7f8388;
+      font-size: 12.5px;
+      line-height: 1.65;
+    }
+
+    .skill-arrow {
+      color: #8b8e92;
+    }
+
+    .skill-arrow svg {
+      width: 18px;
+      height: 18px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .tag {
+      padding: 7px 10px;
+      border-radius: 20px;
+      color: var(--brand);
+      background: var(--brand-soft);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .card {
+      min-height: 190px;
+      padding: 21px;
+      border: 1px solid #e9e9e9;
+      border-radius: 16px;
+      background: #fff;
+      cursor: pointer;
+      transition: 180ms ease;
+    }
+
+    .card:hover {
+      border-color: #e1b9bb;
+      box-shadow: 0 13px 35px rgba(35, 35, 35, 0.07);
+      transform: translateY(-3px);
+    }
+
+    .card-icon {
+      display: grid;
+      place-items: center;
+      width: 39px;
+      height: 39px;
+      margin-bottom: 25px;
+      border-radius: 11px;
+      color: var(--brand);
+      background: var(--brand-soft);
+    }
+
+    .card h3 { margin: 0 0 8px; font-size: 16px; font-weight: 600; }
+    .card p { margin: 0; color: #858585; font-size: 13px; line-height: 1.7; }
+    .card-meta { display: flex; justify-content: space-between; margin-top: 18px; color: #aaa; font-size: 11px; }
+
+    .project-list,
+    .history-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .project-row,
+    .history-row {
+      display: grid;
+      align-items: center;
+      gap: 16px;
+      padding: 17px 18px;
+      border: 1px solid #ebebeb;
+      border-radius: 14px;
+      background: #fff;
+      cursor: pointer;
+      transition: 160ms ease;
+    }
+
+    .project-row { grid-template-columns: 42px 1fr auto; }
+    .history-row { grid-template-columns: 1fr auto; }
+    .project-row:hover, .history-row:hover { background: #fafafa; border-color: #ddd; }
+
+    .folder {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 11px;
+      color: var(--brand);
+      background: var(--brand-soft);
+    }
+
+    .row-copy strong { display: block; margin-bottom: 5px; font-size: 14px; }
+    .row-copy span { color: #969696; font-size: 12px; }
+    .row-date { color: #aaa; font-size: 11px; }
+
+    .task-modal-layer {
+      position: fixed;
+      z-index: 30;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background: transparent;
+      pointer-events: none;
+    }
+
+    .task-modal-layer[hidden] { display: none; }
+
+    .task-modal {
+      width: min(520px, 100%);
+      padding: 25px 28px 22px;
+      border: 1px solid rgba(232,232,232,.9);
+      border-radius: 16px;
+      background: rgba(255,255,255,.98);
+      box-shadow: 0 24px 70px rgba(0,0,0,.16);
+      pointer-events: auto;
+    }
+
+    .task-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 26px;
+    }
+
+    .task-modal-header h3 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 650;
+      letter-spacing: -0.03em;
+    }
+
+    .modal-close {
+      display: grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      border: 0;
+      border-radius: 8px;
+      color: #74777b;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .modal-close:hover { background: #f4f4f4; color: #222; }
+
+    .modal-close svg { width: 18px; height: 18px; }
+
+    .task-form {
+      display: grid;
+      gap: 20px;
+    }
+
+    .task-form-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .task-field {
+      display: grid;
+      gap: 10px;
+      color: #202124;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .required { color: var(--brand); }
+
+    .task-input,
+    .task-select,
+    .task-textarea {
+      width: 100%;
+      border: 0;
+      outline: 0;
+      border-radius: 13px;
+      color: #333;
+      background: #f4f4f4;
+      font-size: 13px;
+      font-weight: 400;
+    }
+
+    .task-input,
+    .task-select {
+      height: 44px;
+      padding: 0 15px;
+    }
+
+    .task-select {
+      appearance: none;
+      padding-right: 36px;
+      background-image:
+        linear-gradient(45deg, transparent 50%, #555 50%),
+        linear-gradient(135deg, #555 50%, transparent 50%);
+      background-position:
+        calc(100% - 18px) 19px,
+        calc(100% - 13px) 19px;
+      background-size: 5px 5px, 5px 5px;
+      background-repeat: no-repeat;
+    }
+
+    .task-textarea {
+      height: 150px;
+      padding: 14px 15px;
+      resize: none;
+      line-height: 1.6;
+    }
+
+    .task-input::placeholder,
+    .task-textarea::placeholder { color: #a7aaae; }
+
+    .advanced-row {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: fit-content;
+      border: 0;
+      color: #333;
+      background: transparent;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .advanced-row svg {
+      width: 15px;
+      height: 15px;
+      color: #6f7378;
+    }
+
+    .task-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      padding-top: 8px;
+    }
+
+    .task-secondary,
+    .task-primary {
+      height: 38px;
+      padding: 0 22px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 160ms ease;
+    }
+
+    .task-secondary {
+      border: 1px solid #e1e1e1;
+      color: #333;
+      background: #fff;
+    }
+
+    .task-secondary:hover { background: #f7f7f7; }
+
+    .task-primary {
+      border: 0;
+      color: #fff;
+      background: #f57f88;
+    }
+
+    .task-primary:hover { background: var(--brand); }
+
+    .toast {
+      position: fixed;
+      z-index: 20;
+      left: 50%;
+      bottom: 30px;
+      padding: 12px 17px;
+      border-radius: 10px;
+      color: #fff;
+      background: #262626;
+      font-size: 13px;
+      box-shadow: 0 8px 30px rgba(0,0,0,.18);
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%, 16px);
+      transition: 220ms ease;
+    }
+
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+    @media (max-width: 900px) {
+      .app { grid-template-columns: 220px 1fr; }
+      .sidebar { padding-inline: 12px; }
+      .brand { gap: 8px; }
+      .brand-logo { width: 52px; }
+      .brand-name { width: 116px; }
+      .brand-name strong { font-size: 15.5px; }
+      .brand-name > span { font-size: 11.5px; }
+      .sidebar-bottom { padding-inline: 3px; }
+      .content { padding-inline: 4vw; }
+      .card-grid { grid-template-columns: repeat(2, 1fr); }
+      .skills-hero { align-items: flex-start; flex-direction: column; }
+      .skills-actions { flex-wrap: wrap; }
+      .skill-center-grid { grid-template-columns: 1fr; }
+      .hero-welcome {
+        width: min(760px, 100%);
+        grid-template-columns: 130px minmax(0, 1fr);
+        column-gap: 16px;
+      }
+      .mascot-greeting { width: 126px; }
+      .hello-bubble { right: -10px; transform: scale(.92); }
+    }
+
+    @media (max-width: 680px) {
+      .app { display: block; }
+      .sidebar {
+        position: relative;
+        top: auto;
+        min-height: auto;
+        height: 70px;
+        padding: 0 14px;
+        flex-direction: row;
+        align-items: center;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+        overflow: visible;
+      }
+      .brand { width: auto; margin: 0 auto 0 0; }
+      .brand-logo { width: 40px; }
+      .brand-name span, .project-submenu, .sidebar-bottom { display: none !important; }
+      .nav { display: flex; gap: 2px; }
+      .nav-item { width: 42px; height: 42px; padding: 0; justify-content: center; }
+      .nav-item span { display: none; }
+      .main { min-height: calc(100vh - 70px); }
+      .topbar {
+        position: relative;
+        height: 62px;
+        padding: 0 12px;
+      }
+      .topbar-actions { display: none; }
+      .mode-button { padding: 0 14px; }
+      .content { min-height: calc(100vh - 132px); padding: 46px 18px 30px; }
+      .view { min-height: calc(100vh - 154px); }
+      .hero-welcome {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        margin-bottom: 5px;
+      }
+      .hero-copy { order: 2; }
+      .mascot-greeting {
+        order: 1;
+        width: 105px;
+        margin: 0 auto 10px;
+        align-self: auto;
+      }
+      .hello-bubble { top: 0; right: -50px; transform: scale(.88); }
+      h1 { font-size: 31px; text-align: center; }
+      .subtitle { font-size: 14px; margin-bottom: 24px; }
+      .suggestions { grid-template-columns: 1fr; }
+      .suggestion { min-height: 72px; }
+      .suggestions.image-gallery { grid-template-columns: repeat(2, 1fr); }
+      .image-template-card { height: 220px; }
+      .suggestions.video-gallery { grid-template-columns: 1fr; }
+      .video-gallery .image-template-card { height: auto; aspect-ratio: 16 / 9; }
+      .knowledge-page .suggestions { gap: 12px; margin-bottom: 30px; }
+      .knowledge-page .suggestion { min-height: 88px; padding: 16px; }
+      .knowledge-page .suggestion strong { font-size: 14px; }
+      .card-grid { grid-template-columns: 1fr; }
+      .skills-page { gap: 18px; }
+      .skill-center-card {
+        grid-template-columns: 54px minmax(0, 1fr) 16px;
+        min-height: 118px;
+        padding: 16px;
+        gap: 14px;
+      }
+      .skill-card-icon { width: 52px; height: 52px; }
+      .skill-card-icon svg { width: 28px; height: 28px; }
+      .page-header { align-items: flex-start; gap: 15px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .mascot-greeting,
+      .hello-bubble,
+      .mascot-spark { animation: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <img class="brand-logo" src="assets/brand-space-icon.png" alt="" aria-hidden="true" />
+        <div class="brand-name">
+          <strong><b>品</b><b>牌</b><b>创</b><b>想</b><b>空</b><b>间</b></strong>
+          <span><b>HTAM</b><b>BRAND</b><b>AI</b></span>
+        </div>
+      </div>
+
+      <nav class="nav" aria-label="主要导航">
+        <button class="nav-item active" data-view="home">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L8 18l-4 1 1-4Z"/></svg>
+          <span>新对话</span>
+        </button>
+        <button class="nav-item" data-view="skills">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3a6 6 0 0 0-4 10.47V17h8v-3.53A6 6 0 0 0 12 3Z"/><path d="M9 21h6M9 17h6"/></svg>
+          <span>技能</span>
+        </button>
+        <button class="nav-item" id="projectNavButton" data-view="projects" aria-expanded="false">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7.5h7l2 2h9v9.5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/><path d="M3 7.5V5a2 2 0 0 1 2-2h5l2 2h7a2 2 0 0 1 2 2v2.5"/></svg>
+          <span>项目</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg>
+        </button>
+        <div class="project-submenu" id="projectSubmenu">
+          <button class="project-child" id="bidProjectButton">投标材料</button>
+          <button class="project-question" id="employeeQuestionButton">公司最新员工数是多少？</button>
+        </div>
+        <button class="nav-item" data-view="history">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/></svg>
+          <span>历史对话</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <img
+          class="workspace-logo"
+          src="assets/huatai-asset-management-logo.png"
+          alt="华泰证券资产管理"
+        />
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="mode-switch" aria-label="功能栏目切换">
+          <button class="mode-button active" data-mode="homepage">首页</button>
+          <button class="mode-button" data-mode="knowledge">品牌知识库</button>
+          <button class="mode-button" data-mode="creation">内容创作</button>
+        </div>
+        <div class="topbar-actions">
+          <button class="ghost-button" id="settingsButton">设置</button>
+        </div>
+      </header>
+
+      <div class="content">
+        <section class="view home active" id="home">
+          <div class="hero-welcome">
+            <div class="mascot-greeting" aria-label="华泰闪宝正在向你挥手问好">
+              <span class="hello-bubble">Hi，欢迎来找我！</span>
+              <i class="mascot-spark one"></i>
+              <i class="mascot-spark two"></i>
+              <img src="assets/shanbao.png" alt="华泰闪宝挥手形象" />
+            </div>
+            <div class="hero-copy">
+              <div class="eyebrow" id="eyebrow"></div>
+              <h1 id="heroTitle">今天，我们从哪里开始？</h1>
+              <p class="subtitle" id="heroSubtitle">连接公司知识与品牌资产，让我来帮你吧！</p>
+            </div>
+          </div>
+
+          <div class="composer">
+            <div class="creation-tabs" id="creationTabs" aria-label="内容创作类型">
+              <button class="creation-tab active" data-creation="text">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5h16M4 10h16M4 15h10M4 20h7"/></svg>
+                文字生成
+              </button>
+              <button class="creation-tab" data-creation="image">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9" r="1.5"/><path d="m3 17 5-5 4 4 3-3 6 6"/></svg>
+                图片生成
+              </button>
+              <button class="creation-tab" data-creation="video">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="14" height="14" rx="2"/><path d="m17 10 4-2v8l-4-2Z"/></svg>
+                视频生成
+              </button>
+            </div>
+            <textarea id="prompt" placeholder="搜索公司介绍、经营数据、业务情况或品牌资料…"></textarea>
+            <div class="composer-actions">
+              <div class="action-group">
+                <button class="round-button" aria-label="添加附件" id="attachButton">
+                  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12h14"/></svg>
+                </button>
+                <button class="context-select" id="projectSelector">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 7h7l2 2h9v10H3Z"/></svg>
+                  <span id="workspaceLabel">华泰品牌知识库</span>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+                </button>
+              </div>
+              <div class="action-group">
+                <button class="round-button" aria-label="语音输入" id="voiceButton">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>
+                </button>
+                <button class="round-button send" aria-label="发送" id="sendButton">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 7-7 7 7M12 19V5"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="template-toolbar" id="templateToolbar" hidden>
+            <div class="template-title">一键做同款</div>
+            <button class="template-next" id="templateNextButton" aria-label="查看更多模板">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1"><path d="m9 6 6 6-6 6"/></svg>
+            </button>
+          </div>
+
+          <div class="suggestions">
+            <button class="suggestion" data-fill="请查询华泰证券资产管理的公司介绍、经营数据与业务情况">
+              <strong>查询公司基本信息</strong>
+              <span>包括公司介绍、经营数据与业务情况</span>
+            </button>
+            <button class="suggestion" data-fill="请获取华泰证券资产管理的品牌标识、品牌影像与品牌物料">
+              <strong>获取品牌资料</strong>
+              <span>包括品牌标识、品牌影像与品牌物料</span>
+            </button>
+            <button class="suggestion" data-fill="请帮我生成一份品牌创意内容">
+              <strong>开展内容创作</strong>
+              <span>一键生成创意软文、海报和视频</span>
+            </button>
+          </div>
+        </section>
+
+        <section class="view page skills-page" id="skills">
+          <div class="skills-hero">
+            <div class="skills-heading">
+              <h2>技能中心</h2>
+            </div>
+            <div class="skills-actions">
+              <button class="skill-filter-button active">全部技能</button>
+              <button class="skill-filter-button">我的技能</button>
+              <button class="skill-filter-button">共享技能</button>
+              <button class="create-task-button" id="createTaskButton">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                创建技能
+              </button>
+            </div>
+          </div>
+
+          <div class="skill-center-grid">
+            <button class="skill-center-card" data-skill="材料审核专家">
+              <span class="skill-card-icon blue">
+                <svg viewBox="0 0 24 24"><path d="M12 3 5 6v5c0 4.6 2.9 8.3 7 10 4.1-1.7 7-5.4 7-10V6Z"/><path d="m9 12 2 2 4-5"/></svg>
+              </span>
+              <span class="skill-card-copy">
+                <h3>材料审核专家</h3>
+                <p>营销外规要求、合规问题、常见错字、格式校正等</p>
+              </span>
+              <span class="skill-arrow"><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></span>
+            </button>
+
+            <button class="skill-center-card" data-skill="媒体公关专家">
+              <span class="skill-card-icon purple">
+                <svg viewBox="0 0 24 24"><path d="M12 3v10a4 4 0 0 0 4-4V7a4 4 0 0 0-8 0v2a4 4 0 0 0 4 4Z"/><path d="M5 10a7 7 0 0 0 14 0M12 17v4M9 21h6"/></svg>
+              </span>
+              <span class="skill-card-copy">
+                <h3>媒体公关专家</h3>
+                <p>录入完整的法规库，学习相关案例。并提供口径研判、媒体性质分析、沟通函件撰写职能</p>
+              </span>
+              <span class="skill-arrow"><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></span>
+            </button>
+
+            <button class="skill-center-card" data-skill="合同审核专家">
+              <span class="skill-card-icon green">
+                <svg viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7Z"/><path d="M14 3v5h5M10 12h5M10 16h3"/><path d="m15 18 1.5 1.5L20 16"/></svg>
+              </span>
+              <span class="skill-card-copy">
+                <h3>合同审核专家</h3>
+                <p>常见合同审核规避</p>
+              </span>
+              <span class="skill-arrow"><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></span>
+            </button>
+          </div>
+        </section>
+
+        <section class="view page" id="projects">
+          <div class="page-header">
+            <div><h2>投标材料</h2><p>集中整理投标所需的公司资料、业务数据与内容成果。</p></div>
+            <span class="tag">项目空间</span>
+          </div>
+          <div class="project-list">
+            <div class="project-row"><div class="folder">01</div><div class="row-copy"><strong>公司基本资料</strong><span>公司介绍、组织架构、员工数据 · 12 个文件</span></div><span class="row-date">更新于今天</span></div>
+            <div class="project-row"><div class="folder">02</div><div class="row-copy"><strong>业务与经营数据</strong><span>业务情况、经营数据、核心优势 · 18 个文件</span></div><span class="row-date">6 月 24 日</span></div>
+            <div class="project-row"><div class="folder">03</div><div class="row-copy"><strong>资质与品牌材料</strong><span>公司资质、品牌标识、标准物料 · 9 个文件</span></div><span class="row-date">6 月 20 日</span></div>
+            <div class="project-row"><div class="folder">04</div><div class="row-copy"><strong>投标问答记录</strong><span>常见问题、历史回复、内容草稿 · 7 次对话</span></div><span class="row-date">6 月 18 日</span></div>
+          </div>
+        </section>
+
+        <section class="view page" id="history">
+          <div class="page-header">
+            <div><h2>历史对话</h2><p>继续处理未完成的任务，或回看过去的工作成果。</p></div>
+            <span class="tag">本月 12 次对话</span>
+          </div>
+          <div class="history-list">
+            <div class="history-row"><div class="row-copy"><strong>品牌焕新项目管理层摘要</strong><span>整理核心判断，并生成一页汇报稿</span></div><span class="row-date">今天 14:32</span></div>
+            <div class="history-row"><div class="row-copy"><strong>投资者日主视觉概念讨论</strong><span>探索“连接价值，共见未来”的三套视觉方向</span></div><span class="row-date">昨天 17:08</span></div>
+            <div class="history-row"><div class="row-copy"><strong>本周金融行业品牌舆情分析</strong><span>梳理热点议题与华泰相关声量变化</span></div><span class="row-date">6 月 21 日</span></div>
+            <div class="history-row"><div class="row-copy"><strong>ESG 年度案例故事润色</strong><span>优化叙事结构与品牌语调</span></div><span class="row-date">6 月 18 日</span></div>
+            <div class="history-row"><div class="row-copy"><strong>青年客群品牌沟通策略</strong><span>生成人群洞察、沟通主题和内容栏目建议</span></div><span class="row-date">6 月 15 日</span></div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+  <div class="task-modal-layer" id="taskModal" hidden>
+    <section class="task-modal" role="dialog" aria-modal="true" aria-labelledby="taskModalTitle">
+      <div class="task-modal-header">
+        <h3 id="taskModalTitle">创建定时技能</h3>
+        <button class="modal-close" id="taskCloseButton" aria-label="关闭创建技能弹窗">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <form class="task-form" id="taskForm">
+        <div class="task-form-row">
+          <label class="task-field">
+            <span><span class="required">*</span> 技能名称</span>
+            <input class="task-input" type="text" placeholder="请输入技能名称" />
+          </label>
+          <label class="task-field">
+            <span><span class="required">*</span> 共享给TA</span>
+            <select class="task-select">
+              <option value="">请选择TA</option>
+              <option>同事A</option>
+              <option>同事B</option>
+              <option>同事C</option>
+            </select>
+          </label>
+        </div>
+        <label class="task-field">
+          <span><span class="required">*</span> 技能指令</span>
+          <textarea class="task-textarea" placeholder="请输入技能指令"></textarea>
+        </label>
+        <button class="advanced-row" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 15.5A3.5 3.5 0 1 0 12 8a3.5 3.5 0 0 0 0 7.5Z"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.05.05a2 2 0 0 1-2.83 2.83l-.05-.05a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.55V21a2 2 0 0 1-4 0v-.08a1.7 1.7 0 0 0-1-1.55 1.7 1.7 0 0 0-1.87.34l-.05.05a2 2 0 0 1-2.83-2.83l.05-.05A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.55-1H3a2 2 0 0 1 0-4h.08a1.7 1.7 0 0 0 1.55-1 1.7 1.7 0 0 0-.34-1.87l-.05-.05a2 2 0 0 1 2.83-2.83l.05.05A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-1.55V3a2 2 0 0 1 4 0v.08a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1.87-.34l.05-.05a2 2 0 0 1 2.83 2.83l-.05.05A1.7 1.7 0 0 0 19.4 9c.22.61.78 1 1.55 1H21a2 2 0 0 1 0 4h-.08c-.77 0-1.33.39-1.52 1Z"/></svg>
+          高级设置（可配置推送通知和切换默认模型）
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="task-actions">
+          <button class="task-secondary" type="button" id="taskCancelButton">取消</button>
+          <button class="task-primary" type="submit">保存</button>
+        </div>
+      </form>
+    </section>
+  </div>
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const navItems = document.querySelectorAll('.nav-item');
+    const views = document.querySelectorAll('.view');
+    const promptBox = document.getElementById('prompt');
+    const toast = document.getElementById('toast');
+    const modeButtons = document.querySelectorAll('.mode-button');
+    const creationTabs = document.getElementById('creationTabs');
+    const creationButtons = document.querySelectorAll('.creation-tab');
+    const suggestionContainer = document.querySelector('.suggestions');
+    const templateToolbar = document.getElementById('templateToolbar');
+    const templateNextButton = document.getElementById('templateNextButton');
+    const heroTitle = document.getElementById('heroTitle');
+    const heroSubtitle = document.getElementById('heroSubtitle');
+    const eyebrow = document.getElementById('eyebrow');
+    const workspaceLabel = document.getElementById('workspaceLabel');
+    const projectNavButton = document.getElementById('projectNavButton');
+    const projectSubmenu = document.getElementById('projectSubmenu');
+    const bidProjectButton = document.getElementById('bidProjectButton');
+    const employeeQuestionButton = document.getElementById('employeeQuestionButton');
+    const taskModal = document.getElementById('taskModal');
+    const createTaskButton = document.getElementById('createTaskButton');
+    const taskCloseButton = document.getElementById('taskCloseButton');
+    const taskCancelButton = document.getElementById('taskCancelButton');
+    const taskForm = document.getElementById('taskForm');
+    let currentMode = 'homepage';
+    let currentCreation = 'text';
+
+    const experiences = {
+      homepage: {
+        eyebrow: '',
+        title: '今天，我们从哪里开始？',
+        subtitle: '连接公司知识与品牌资产，让我来帮你吧！',
+        placeholder: '搜索公司介绍、经营数据、业务情况或品牌资料…',
+        workspace: '华泰品牌知识库',
+        showMascot: true,
+        suggestions: [
+          ['查询公司基本信息', '包括公司介绍、经营数据与业务情况', '请查询华泰证券资产管理的公司介绍、经营数据与业务情况'],
+          ['获取品牌资料', '包括品牌标识、品牌影像与品牌物料', '请获取华泰证券资产管理的品牌标识、品牌影像与品牌物料'],
+          ['开展内容创作', '一键生成创意软文、海报和视频', '请帮我生成一份品牌创意内容']
+        ]
+      },
+      knowledge: {
+        eyebrow: '',
+        title: '热门下载',
+        subtitle: '',
+        placeholder: '公司基本信息、经营数据、业务情况……试试上传表格文件，让我帮你一键填写',
+        workspace: '品牌知识库',
+        showMascot: false,
+        suggestions: [
+          ['公司介绍', '公司介绍PPT、Word、LOGO、公司宣传片等', '请帮我查找公司介绍PPT、Word、LOGO和公司宣传片'],
+          ['品牌LOGO', 'LOGO、业务LOGO、员工品牌LOGO、公益LOGO等', '请帮我查找LOGO、业务LOGO、员工品牌LOGO和公益LOGO'],
+          ['常用物料', '席卡模版、欢迎屏模版、PPT模版、VI手册等', '请帮我查找席卡模版、欢迎屏模版、PPT模版和VI手册']
+        ]
+      },
+      text: {
+        eyebrow: '',
+        title: '把想法，变成好内容',
+        subtitle: '从一句灵感到完整稿件，用公司的品牌语调完成专业、准确、有温度的文字表达。',
+        placeholder: '描述你想生成的文章、文案、脚本或传播主题…',
+        workspace: 'GPT-5.3',
+        showMascot: false,
+        templates: [
+          ['品牌营销金句', 'assets/text-templates/brand-marketing-lines.png', '参考「品牌营销金句」模板，生成一组华泰证券资产管理品牌营销金句'],
+          ['海报创意文案', 'assets/text-templates/poster-copy.png', '参考「海报创意文案」模板，生成一组适合海报使用的创意文案'],
+          ['宣传片文案', 'assets/text-templates/promo-video-copy.png', '参考「宣传片文案」模板，生成一份品牌宣传片文案'],
+          ['产品认购指南', 'assets/text-templates/product-subscription-guide.png', '参考「产品认购指南」模板，生成一份产品认购指南文案'],
+          ['营销视频脚本', 'assets/text-templates/marketing-video-script.png', '参考「营销视频脚本」模板，生成一份营销视频脚本'],
+          ['媒体新闻通稿', 'assets/text-templates/media-press-release.png', '参考「媒体新闻通稿」模板，生成一篇媒体新闻通稿']
+        ]
+      },
+      image: {
+        eyebrow: '',
+        title: '让创意，成为画面',
+        subtitle: '输入画面构想，快速生成适用于品牌传播、产品营销、自媒体运营等场景的视觉内容。',
+        placeholder: '描述画面主体、风格、构图、色彩和使用场景…',
+        workspace: 'GPT Image',
+        showMascot: false,
+        templates: [
+          ['业务里程碑海报', 'assets/image-templates/business-milestone.jpg', '参考「业务里程碑海报」模板，生成一张华泰证券资产管理业务里程碑主题海报'],
+          ['产品营销喜报', 'assets/image-templates/product-good-news.png', '参考「产品营销喜报」模板，生成一张产品上市或营销喜报海报'],
+          ['产品营销海报', 'assets/image-templates/product-marketing.png', '参考「产品营销海报」模板，生成一张产品营销推广海报'],
+          ['周年海报', 'assets/image-templates/anniversary-poster.jpg', '参考「周年海报」模板，生成一张公司周年主题海报'],
+          ['节气海报', 'assets/image-templates/solar-term-poster.jpg', '参考「节气海报」模板，生成一张二十四节气品牌海报'],
+          ['节日海报', 'assets/image-templates/festival-poster.jpg', '参考「节日海报」模板，生成一张节日祝福品牌海报']
+        ]
+      },
+      video: {
+        eyebrow: '',
+        title: '把故事，讲得更生动',
+        subtitle: '从创意脚本到视频画面，快速构建适用于品牌传播、产品营销、自媒体运营等场景的动态内容。',
+        placeholder: '描述视频主题、时长、镜头语言、节奏和使用场景…',
+        workspace: 'GPT Sora',
+        showMascot: false,
+        galleryType: 'video',
+        templates: [
+          ['产品营销视频', 'assets/video-templates/product-marketing-video.png', '参考「产品营销视频」模板，生成一支产品营销视频方案'],
+          ['品牌概念视频', 'assets/video-templates/brand-concept-video.png', '参考「品牌概念视频」模板，生成一支品牌概念视频方案'],
+          ['闪宝IP创意视频', 'assets/video-templates/shanbao-ip-video.png', '参考「闪宝IP创意视频」模板，生成一支闪宝 IP 创意视频方案']
+        ]
+      }
+    };
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add('show');
+      clearTimeout(window.toastTimer);
+      window.toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function switchView(id) {
+      bidProjectButton.classList.remove('active');
+      employeeQuestionButton.classList.remove('active');
+      navItems.forEach(item => item.classList.toggle('active', item.dataset.view === id));
+      views.forEach(view => view.classList.toggle('active', view.id === id));
+    }
+
+    function renderExperience(type) {
+      const experience = experiences[type];
+      const homeView = document.getElementById('home');
+      homeView.classList.toggle('knowledge-page', type === 'knowledge');
+      homeView.classList.toggle('creation-page', ['text', 'image', 'video'].includes(type));
+      document.querySelector('.hero-welcome').classList.toggle('no-mascot', !experience.showMascot);
+      eyebrow.textContent = experience.eyebrow;
+      heroTitle.textContent = experience.title;
+      heroSubtitle.textContent = experience.subtitle;
+      promptBox.placeholder = experience.placeholder;
+      workspaceLabel.textContent = experience.workspace;
+      promptBox.value = '';
+      templateToolbar.hidden = !['text', 'image', 'video'].includes(type);
+
+      if (experience.templates) {
+        suggestionContainer.classList.add('image-gallery');
+        suggestionContainer.classList.toggle('video-gallery', experience.galleryType === 'video');
+        suggestionContainer.innerHTML = experience.templates.map(([title, src, prompt]) => `
+          <button class="image-template-card" data-fill="${escapeHtml(prompt)}" aria-label="使用${escapeHtml(title)}模板">
+            <img src="${escapeHtml(src)}" alt="${escapeHtml(title)}" />
+            <span>${escapeHtml(title)}</span>
+          </button>
+        `).join('');
+      } else {
+        suggestionContainer.classList.remove('image-gallery');
+        suggestionContainer.classList.remove('video-gallery');
+        suggestionContainer.innerHTML = experience.suggestions.map(([title, description, prompt]) => `
+          <button class="suggestion" data-fill="${escapeHtml(prompt)}">
+            <strong>${escapeHtml(title)}</strong>
+            <span>${escapeHtml(description)}</span>
+          </button>
+        `).join('');
+      }
+    }
+
+    function switchMode(mode) {
+      currentMode = mode;
+      modeButtons.forEach(button => button.classList.toggle('active', button.dataset.mode === mode));
+      creationTabs.classList.toggle('show', mode === 'creation');
+      switchView('home');
+      renderExperience(mode === 'creation' ? currentCreation : mode);
+    }
+
+    function selectSidebarItem(item) {
+      navItems.forEach(navItem => navItem.classList.toggle('active', navItem === item));
+      bidProjectButton.classList.remove('active');
+      employeeQuestionButton.classList.remove('active');
+    }
+
+    function openTaskModal() {
+      taskModal.hidden = false;
+      setTimeout(() => taskModal.querySelector('.task-input').focus(), 30);
+    }
+
+    function closeTaskModal() {
+      taskModal.hidden = true;
+    }
+
+    navItems.forEach(item => {
+      item.addEventListener('click', () => {
+        selectSidebarItem(item);
+        if (item.dataset.view === 'home') {
+          switchView('home');
+          renderExperience(currentMode === 'creation' ? currentCreation : currentMode);
+          return;
+        }
+        if (item.dataset.view === 'skills') {
+          switchView('skills');
+          return;
+        }
+        if (item === projectNavButton) {
+          const willOpen = projectNavButton.getAttribute('aria-expanded') !== 'true';
+          projectNavButton.setAttribute('aria-expanded', String(willOpen));
+          projectSubmenu.classList.toggle('open', willOpen);
+        }
+      });
+    });
+
+    modeButtons.forEach(button => {
+      button.addEventListener('click', () => switchMode(button.dataset.mode));
+    });
+
+    creationButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        currentCreation = button.dataset.creation;
+        creationButtons.forEach(item => item.classList.toggle('active', item === button));
+        renderExperience(currentCreation);
+      });
+    });
+
+    document.querySelectorAll('.skill-filter-button').forEach(button => {
+      button.addEventListener('click', () => {
+        document.querySelectorAll('.skill-filter-button').forEach(item => item.classList.toggle('active', item === button));
+      });
+    });
+
+    suggestionContainer.addEventListener('click', event => {
+      const item = event.target.closest('[data-fill]');
+      if (!item || !suggestionContainer.contains(item)) return;
+      switchView('home');
+      promptBox.value = item.dataset.fill;
+      setTimeout(() => promptBox.focus(), 50);
+    });
+
+    document.querySelectorAll('[data-skill]').forEach(card => {
+      card.addEventListener('click', () => {
+        showToast(`已选择「${card.dataset.skill}」`);
+      });
+    });
+
+    document.querySelectorAll('.project-row').forEach(row => {
+      row.addEventListener('click', () => showToast(`已打开「${row.querySelector('strong').textContent}」项目`));
+    });
+
+    document.querySelectorAll('.history-row').forEach(row => {
+      row.addEventListener('click', () => showToast(`正在恢复对话：${row.querySelector('strong').textContent}`));
+    });
+
+    document.getElementById('sendButton').addEventListener('click', () => {
+      const text = promptBox.value.trim();
+      if (!text) {
+        showToast(currentMode === 'creation' ? '请先描述你想创作的内容' : '请输入你想查询的华泰信息');
+        promptBox.focus();
+        return;
+      }
+      showToast(currentMode === 'creation' ? '创作任务已提交，正在生成内容…' : '正在检索华泰品牌知识库…');
+      promptBox.value = '';
+    });
+
+    promptBox.addEventListener('keydown', event => {
+      if (event.key === 'Enter' && !event.shiftKey) {
+        event.preventDefault();
+        document.getElementById('sendButton').click();
+      }
+    });
+
+    document.getElementById('attachButton').addEventListener('click', () => showToast('可上传文档、图片或品牌资料'));
+    document.getElementById('voiceButton').addEventListener('click', () => showToast('语音输入功能演示'));
+    document.getElementById('projectSelector').addEventListener('click', () => showToast(`当前已连接：${workspaceLabel.textContent}`));
+    document.getElementById('settingsButton').addEventListener('click', () => showToast('设置功能演示'));
+    templateNextButton.addEventListener('click', () => showToast('更多模板正在接入'));
+    createTaskButton.addEventListener('click', openTaskModal);
+    taskCloseButton.addEventListener('click', closeTaskModal);
+    taskCancelButton.addEventListener('click', closeTaskModal);
+    taskForm.addEventListener('submit', event => {
+      event.preventDefault();
+      closeTaskModal();
+      showToast('定时技能已保存');
+    });
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && !taskModal.hidden) closeTaskModal();
+    });
+    bidProjectButton.addEventListener('click', () => {
+      selectSidebarItem(projectNavButton);
+      projectNavButton.setAttribute('aria-expanded', 'true');
+      projectSubmenu.classList.add('open');
+      bidProjectButton.classList.add('active');
+    });
+    employeeQuestionButton.addEventListener('click', () => {
+      selectSidebarItem(projectNavButton);
+      projectNavButton.setAttribute('aria-expanded', 'true');
+      projectSubmenu.classList.add('open');
+      employeeQuestionButton.classList.add('active');
+    });
+  </script>
+</body>
+</html>
