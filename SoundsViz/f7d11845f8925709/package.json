@@ -1,0 +1,14 @@
+{
+  "name": "f7d11845f8925709",
+  "main": "f7d11845f8925709@236.js",
+  "version": "236.0.0",
+  "homepage": "https://observablehq.com/d/f7d11845f8925709",
+  "author": {
+    "name": "Data Vis",
+    "url": "https://observablehq.com/@data-vis36"
+  },
+  "type": "module",
+  "peerDependencies": {
+    "@observablehq/runtime": "4 - 5"
+  }
+}
