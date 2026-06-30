@@ -1,5 +1,5 @@
-const CSV_GENRE = "./f7d11845f8925709/files/605240c23326a88dbb379a13268f67c19a6bd9f52c005c25a6a7cc5d997985a83b4450ff847802ab994836907ba26ea858face8ed598620ebf078cf4fc3c35f1.csv";
-const CSV_POPULAR = "./f7d11845f8925709/files/d73403ee459cf8d466c0addc263b7fea810dac9071dfbfed79bda477221266600f5b42d59159be3ed019a9cd053029a289a95c28ff435b01a3363177a6000316.csv";
+const CSV_GENRE = "./data/genre_summary.csv";
+const CSV_POPULAR = "./data/popularity_summary.csv";
 const CSV_TRACKS = "./data/spotify_tracks.csv";
 
 const features = [
