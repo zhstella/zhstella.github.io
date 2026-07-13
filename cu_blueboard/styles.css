@@ -124,6 +124,7 @@ main {
 }
 
 .hero-panel,
+.board-section,
 .workspace,
 .moderation {
   padding: clamp(32px, 5vw, 76px);
@@ -181,7 +182,7 @@ h1 {
 .primary-action,
 .secondary-action,
 .composer-actions button,
-.search-row button {
+.filter-pill {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -201,7 +202,7 @@ h1 {
 
 .secondary-action,
 .composer-actions button,
-.search-row button {
+.filter-pill {
   color: var(--deep-blue);
   background: #ffffff;
 }
@@ -288,6 +289,21 @@ h1 {
 .thread-card p {
   color: #4a5872;
   line-height: 1.55;
+}
+
+.board-section {
+  scroll-margin-top: 24px;
+  background: #ffffff;
+  border-bottom: 1px solid var(--line);
+}
+
+.board-window-large {
+  max-width: 980px;
+}
+
+.thread-list {
+  display: grid;
+  gap: 0;
 }
 
 .workspace,
@@ -440,6 +456,7 @@ textarea {
 
 @media (max-width: 640px) {
   .hero-panel,
+  .board-section,
   .workspace,
   .moderation {
     padding: 28px 16px;
@@ -458,7 +475,7 @@ textarea {
     flex-direction: column;
   }
 
-  .search-row button,
+  .filter-pill,
   .composer-actions button {
     width: 100%;
   }

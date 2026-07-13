@@ -19,7 +19,7 @@
           </span>
         </a>
         <nav>
-          <a href="#feed" class="active">Board</a>
+          <a href="#board" class="active">Board</a>
           <a href="#ask">Ask</a>
           <a href="#moderation">Moderation</a>
           <a href="https://github.com/zhstella/CU_Blueboard">Source</a>
@@ -34,12 +34,12 @@
             <h1>CU Blueboard</h1>
             <p class="tagline">Verified community. Anonymous voice.</p>
             <div class="hero-actions" aria-label="Primary links">
-              <a class="primary-action" href="#feed">Enter board</a>
+              <a class="primary-action" href="#board">Enter board</a>
               <a class="secondary-action" href="https://github.com/zhstella/CU_Blueboard">GitHub repo</a>
             </div>
           </div>
 
-          <div class="board-window" id="feed">
+          <div class="board-window hero-board-preview">
             <div class="window-bar">
               <span class="status-dot"></span>
               <strong>Campus questions</strong>
@@ -47,7 +47,7 @@
             </div>
             <div class="search-row">
               <span>Search housing, visas, courses...</span>
-              <button type="button">Filter</button>
+              <span class="filter-pill">All topics</span>
             </div>
             <article class="thread-card answered">
               <div class="thread-meta">
@@ -73,6 +73,62 @@
                 <span>Anonymous Lion 07</span>
               </div>
             </article>
+          </div>
+        </section>
+
+        <section class="board-section" id="board" aria-label="Campus question board">
+          <div class="section-head">
+            <p class="eyebrow">Board</p>
+            <h2>Campus questions</h2>
+          </div>
+          <div class="board-window board-window-large">
+            <div class="window-bar">
+              <span class="status-dot"></span>
+              <strong>Question feed</strong>
+              <small>Anonymous campus board</small>
+            </div>
+            <div class="search-row">
+              <span>Search housing, visas, courses...</span>
+              <span class="filter-pill">All topics</span>
+            </div>
+            <div class="thread-list">
+              <article class="thread-card answered">
+                <div class="thread-meta">
+                  <span>Housing</span>
+                  <span>Accepted answer</span>
+                </div>
+                <h2>How early should I look for fall sublets near campus?</h2>
+                <p>Most students start watching listings in late spring. Prioritize verified groups, ask for a video walk-through, and do not send a deposit before you confirm the lease details.</p>
+                <div class="thread-footer">
+                  <span>4 answers</span>
+                  <span>Anonymous Tiger 18</span>
+                </div>
+              </article>
+              <article class="thread-card">
+                <div class="thread-meta">
+                  <span>International</span>
+                  <span>Open</span>
+                </div>
+                <h2>What should I bring to my visa appointment?</h2>
+                <p>Checklist advice from other students, with room for campus staff to add the official link and mark the response as accepted.</p>
+                <div class="thread-footer">
+                  <span>2 answers</span>
+                  <span>Anonymous Lion 07</span>
+                </div>
+              </article>
+              <article class="thread-card">
+                <div class="thread-meta">
+                  <span>Academics</span>
+                  <span>Open</span>
+                </div>
+                <h2>Can I take COMS W4111 and a language intensive together?</h2>
+                <p>Students compare workload, project timing, reading pace, and office-hour planning for a balanced semester.</p>
+                <div class="thread-footer">
+                  <span>6 answers</span>
+                  <span>Anonymous Owl 23</span>
+                </div>
+              </article>
+            </div>
           </div>
         </section>
 
