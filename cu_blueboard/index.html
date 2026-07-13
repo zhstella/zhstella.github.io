@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CU Blueboard</title>
+    <meta name="description" content="CU Blueboard static GitHub Pages entry for the verified anonymous Columbia and Barnard Q&A project.">
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <div class="page-shell">
+      <aside class="app-nav" aria-label="CU Blueboard navigation">
+        <a class="brand" href="./" aria-label="CU Blueboard home">
+          <span class="brand-mark">CU</span>
+          <span>
+            <strong>CU Blueboard</strong>
+            <small>Verified community</small>
+          </span>
+        </a>
+        <nav>
+          <a href="#feed" class="active">Board</a>
+          <a href="#ask">Ask</a>
+          <a href="#moderation">Moderation</a>
+          <a href="https://github.com/zhstella/CU_Blueboard">Source</a>
+        </nav>
+        <a class="back-link" href="../">Back to zhstella.github.io</a>
+      </aside>
+
+      <main>
+        <section class="hero-panel" aria-label="CU Blueboard overview">
+          <div class="hero-copy">
+            <p class="eyebrow">Columbia and Barnard Q&A</p>
+            <h1>CU Blueboard</h1>
+            <p class="tagline">Verified community. Anonymous voice.</p>
+            <div class="hero-actions" aria-label="Primary links">
+              <a class="primary-action" href="#feed">Enter board</a>
+              <a class="secondary-action" href="https://github.com/zhstella/CU_Blueboard">GitHub repo</a>
+            </div>
+          </div>
+
+          <div class="board-window" id="feed">
+            <div class="window-bar">
+              <span class="status-dot"></span>
+              <strong>Campus questions</strong>
+              <small>Static Pages preview</small>
+            </div>
+            <div class="search-row">
+              <span>Search housing, visas, courses...</span>
+              <button type="button">Filter</button>
+            </div>
+            <article class="thread-card answered">
+              <div class="thread-meta">
+                <span>Housing</span>
+                <span>Accepted answer</span>
+              </div>
+              <h2>How early should I look for fall sublets near campus?</h2>
+              <p>Most students start watching listings in late spring. Prioritize verified groups, ask for a video walk-through, and do not send a deposit before you confirm the lease details.</p>
+              <div class="thread-footer">
+                <span>4 answers</span>
+                <span>Anonymous Tiger 18</span>
+              </div>
+            </article>
+            <article class="thread-card">
+              <div class="thread-meta">
+                <span>International</span>
+                <span>Open</span>
+              </div>
+              <h2>What should I bring to my visa appointment?</h2>
+              <p>Checklist advice from other students, with room for campus staff to add the official link and mark the response as accepted.</p>
+              <div class="thread-footer">
+                <span>2 answers</span>
+                <span>Anonymous Lion 07</span>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="workspace" id="ask" aria-label="Question composer preview">
+          <div class="section-head">
+            <p class="eyebrow">Q&A workflow</p>
+            <h2>Structured answers without public identity pressure</h2>
+          </div>
+          <div class="workspace-grid">
+            <form class="composer">
+              <label>
+                Topic
+                <select aria-label="Topic">
+                  <option>Academics</option>
+                  <option>Housing</option>
+                  <option>Careers</option>
+                  <option>Wellness</option>
+                </select>
+              </label>
+              <label>
+                Question
+                <input value="Can I take COMS W4111 and a language intensive together?">
+              </label>
+              <label>
+                Details
+                <textarea rows="6">I am planning next semester and want a workload check from people who have taken both.</textarea>
+              </label>
+              <div class="composer-actions">
+                <button type="button">Preview</button>
+                <button type="button" class="submit-btn">Post anonymously</button>
+              </div>
+            </form>
+
+            <div class="insight-list">
+              <article>
+                <span class="insight-icon">1</span>
+                <h3>Verified access</h3>
+                <p>Campus SSO keeps the room limited to Columbia and Barnard students.</p>
+              </article>
+              <article>
+                <span class="insight-icon">2</span>
+                <h3>Anonymous threads</h3>
+                <p>Stable pseudonyms protect student privacy while preserving conversation continuity.</p>
+              </article>
+              <article>
+                <span class="insight-icon">3</span>
+                <h3>Accepted answers</h3>
+                <p>Question owners can mark the best reply so useful advice stays easy to find.</p>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="moderation" id="moderation" aria-label="Moderation preview">
+          <div class="section-head">
+            <p class="eyebrow">Trust layer</p>
+            <h2>Built for accountability behind anonymity</h2>
+          </div>
+          <div class="moderation-grid">
+            <article class="metric-card">
+              <strong>AI screen</strong>
+              <span>Hate, harassment, violence, and self-harm checks before posts appear.</span>
+            </article>
+            <article class="metric-card">
+              <strong>Identity escrow</strong>
+              <span>Peers see anonymous names; severe violations remain traceable to staff.</span>
+            </article>
+            <article class="metric-card">
+              <strong>Audit trail</strong>
+              <span>Redactions, reveals, edits, and moderator actions stay reviewable.</span>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
