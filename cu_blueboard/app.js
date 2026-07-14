@@ -214,6 +214,60 @@ const seededPosts = [
   }
 ];
 
+const policies = {
+  honor: `
+    <h1 class="policy-title">Honor Code</h1>
+    <p class="policy-updated">Last Updated: December 01, 2025</p>
+    <section class="policy-section">
+      <h2>Academic Integrity</h2>
+      <p>CU BlueBoard is committed to upholding the academic integrity standards of Columbia University and Barnard College. By using this platform, you agree to:</p>
+      <ul>
+        <li>Not post or request answers to exams, quizzes, or graded assignments</li>
+        <li>Not share copyrighted course materials without permission</li>
+        <li>Not engage in any form of academic dishonesty</li>
+        <li>Report any content that violates academic integrity policies</li>
+      </ul>
+    </section>
+    <section class="policy-section">
+      <h2>Community Standards</h2>
+      <p>As a member of the CU BlueBoard community, you agree to:</p>
+      <ul>
+        <li>Treat all community members with respect and dignity</li>
+        <li>Not post hateful, discriminatory, or harassing content</li>
+        <li>Not impersonate other students, faculty, or staff</li>
+        <li>Use the platform for its intended purpose of constructive Q&amp;A</li>
+      </ul>
+    </section>
+    <section class="policy-section">
+      <h2>Identity Escrow</h2>
+      <p>While posts on CU BlueBoard are anonymous to other users, your identity is verified through Columbia/Barnard SSO and may be disclosed to university administrators in cases of:</p>
+      <ul>
+        <li>Serious violations of the Honor Code</li>
+        <li>Threats to campus safety</li>
+        <li>Legal requirements</li>
+      </ul>
+    </section>
+    <section class="policy-section">
+      <h2>Consequences</h2>
+      <p>Violations of this Honor Code may result in:</p>
+      <ul>
+        <li>Content removal or redaction</li>
+        <li>Temporary or permanent account suspension</li>
+        <li>Referral to university disciplinary processes</li>
+      </ul>
+    </section>`,
+  terms: `
+    <h1 class="policy-title">Terms of Service</h1>
+    <p class="policy-updated">Last Updated: December 01, 2025</p>
+    <section class="policy-section"><h2>1. Acceptance of Terms</h2><p>By accessing and using CU BlueBoard, you accept and agree to be bound by these Terms of Service and our Honor Code. If you do not agree to these terms, please do not use this platform.</p></section>
+    <section class="policy-section"><h2>2. Eligibility</h2><p>CU BlueBoard is exclusively available to verified Columbia University and Barnard College students, faculty, and staff. Access requires authentication through university SSO credentials.</p></section>
+    <section class="policy-section"><h2>3. User Content</h2><p>You retain ownership of content you post. By posting, you grant CU BlueBoard a non-exclusive license to display and distribute your content within the platform. You are solely responsible for content you post and must ensure it complies with our Honor Code.</p></section>
+    <section class="policy-section"><h2>4. Privacy</h2><p>Your identity is verified via SSO but displayed anonymously to other users. We collect minimal data necessary to operate the service. Your information may be disclosed to university administrators for policy violations or legal requirements.</p></section>
+    <section class="policy-section"><h2>5. Moderation</h2><p>Content is subject to AI pre-screening and human moderation by university staff. We reserve the right to remove, redact, or flag content that violates our policies without prior notice.</p></section>
+    <section class="policy-section"><h2>6. Disclaimer</h2><p>CU BlueBoard is provided "as is" without warranties of any kind. We do not guarantee the accuracy, completeness, or reliability of user-generated content. Academic advice should be verified with official university resources.</p></section>
+    <section class="policy-section"><h2>7. Contact</h2><p>For questions about these terms or to report violations, please contact the CU BlueBoard moderation team through the platform.</p></section>`
+};
+
 const storageKeys = {
   bookmarks: "cu-blueboard-static-bookmarks",
   posts: "cu-blueboard-static-posts"
@@ -231,8 +285,27 @@ const safeJSON = (key, fallback) => {
 let localPosts = safeJSON(storageKeys.posts, []);
 let bookmarks = new Set(safeJSON(storageKeys.bookmarks, []));
 let currentView = "all";
+let currentRole = null;
 
 const elements = {
+  loginView: document.querySelector("#login-view"),
+  policyView: document.querySelector("#policy-view"),
+  appView: document.querySelector("#app-view"),
+  policyContent: document.querySelector("#policy-content"),
+  policyLogo: document.querySelector("#policy-logo"),
+  backToLogin: document.querySelector("#back-to-login"),
+  ssoLogin: document.querySelector("#sso-login"),
+  testUserLogin: document.querySelector("#test-user-login"),
+  testModeratorLogin: document.querySelector("#test-moderator-login"),
+  appHome: document.querySelector("#app-home"),
+  headerFlash: document.querySelector("#header-flash"),
+  moderationNav: document.querySelector("#moderation-nav"),
+  logout: document.querySelector("#logout-button"),
+  boardView: document.querySelector("#board-view"),
+  moderationView: document.querySelector("#moderation-view"),
+  backToBoard: document.querySelector("#back-to-board"),
+  listHeading: document.querySelector("#list-heading"),
+  viewSubtitle: document.querySelector("#view-subtitle"),
   posts: document.querySelector("#posts"),
   empty: document.querySelector("#empty-state"),
   searchForm: document.querySelector("#search-form"),
@@ -342,9 +415,19 @@ const renderPosts = () => {
 
 const setView = view => {
   currentView = view;
-  const titles = { all: "Campus questions", bookmarks: "Bookmarked Posts", mine: "My Threads" };
-  elements.viewTitle.textContent = titles[view];
+  const headings = {
+    bookmarks: ["Bookmarked Posts", "Posts you have bookmarked are shown here."],
+    mine: ["My Threads", "Only threads you created are shown here."]
+  };
+  elements.boardView.hidden = false;
+  elements.moderationView.hidden = true;
+  elements.listHeading.hidden = view === "all";
+  if (headings[view]) {
+    elements.viewTitle.textContent = headings[view][0];
+    elements.viewSubtitle.textContent = headings[view][1];
+  }
   document.querySelectorAll("[data-view]").forEach(button => button.classList.toggle("active", button.dataset.view === view));
+  elements.moderationNav.classList.remove("active");
   renderPosts();
 };
 
@@ -353,6 +436,52 @@ const showToast = message => {
   elements.toast.classList.add("show");
   window.clearTimeout(showToast.timer);
   showToast.timer = window.setTimeout(() => elements.toast.classList.remove("show"), 2200);
+};
+
+const showLogin = () => {
+  currentRole = null;
+  elements.loginView.hidden = false;
+  elements.policyView.hidden = true;
+  elements.appView.hidden = true;
+  elements.headerFlash.hidden = true;
+  document.body.classList.add("login-mode");
+  document.querySelectorAll("dialog[open]").forEach(dialog => dialog.close());
+  window.scrollTo({ top: 0, behavior: "instant" });
+};
+
+const showPolicy = name => {
+  if (!policies[name]) return;
+  elements.policyContent.innerHTML = policies[name];
+  elements.loginView.hidden = true;
+  elements.policyView.hidden = false;
+  elements.appView.hidden = true;
+  document.body.classList.add("login-mode");
+  window.scrollTo({ top: 0, behavior: "instant" });
+};
+
+const login = role => {
+  currentRole = role;
+  elements.loginView.hidden = true;
+  elements.policyView.hidden = true;
+  elements.appView.hidden = false;
+  elements.moderationNav.hidden = role !== "moderator";
+  document.body.classList.remove("login-mode");
+  setView("all");
+  elements.headerFlash.textContent = role === "moderator"
+    ? "Signed in as Test Moderator (Moderator)"
+    : "Signed in as Test User (Student)";
+  elements.headerFlash.hidden = false;
+  window.clearTimeout(login.flashTimer);
+  login.flashTimer = window.setTimeout(() => { elements.headerFlash.hidden = true; }, 3000);
+  window.scrollTo({ top: 0, behavior: "instant" });
+};
+
+const showModeration = () => {
+  if (currentRole !== "moderator") return;
+  elements.boardView.hidden = true;
+  elements.moderationView.hidden = false;
+  elements.moderationNav.classList.add("active");
+  document.querySelectorAll("[data-view]").forEach(button => button.classList.remove("active"));
 };
 
 const openPost = id => {
@@ -378,6 +507,31 @@ const openPost = id => {
     <section class="answers"><h3>${post.answers.length} ${post.answers.length === 1 ? "Answer" : "Answers"}</h3>${answers}</section>`;
   elements.postDialog.showModal();
 };
+
+document.querySelectorAll("[data-policy]").forEach(button => {
+  button.addEventListener("click", () => showPolicy(button.dataset.policy));
+});
+
+elements.policyLogo.addEventListener("click", showLogin);
+elements.backToLogin.addEventListener("click", showLogin);
+elements.testUserLogin.addEventListener("click", () => login("user"));
+elements.testModeratorLogin.addEventListener("click", () => login("moderator"));
+elements.ssoLogin.addEventListener("click", () => {
+  login("user");
+  showToast("University SSO is simulated on this static site");
+});
+elements.logout.addEventListener("click", showLogin);
+elements.appHome.addEventListener("click", () => setView("all"));
+elements.moderationNav.addEventListener("click", showModeration);
+elements.backToBoard.addEventListener("click", () => setView("all"));
+
+document.querySelectorAll("[data-review-action]").forEach(button => {
+  button.addEventListener("click", () => {
+    const action = button.dataset.reviewAction;
+    button.closest("article")?.remove();
+    showToast(action);
+  });
+});
 
 elements.searchForm.addEventListener("submit", event => {
   event.preventDefault();
@@ -466,3 +620,4 @@ document.querySelectorAll("dialog").forEach(dialog => {
 });
 
 renderPosts();
+showLogin();
