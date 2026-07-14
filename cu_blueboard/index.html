@@ -3,206 +3,79 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>CU Blueboard</title>
-    <meta name="description" content="CU Blueboard static GitHub Pages entry for the verified anonymous Columbia and Barnard Q&A project.">
-    <link rel="icon" href="data:,">
-    <link rel="stylesheet" href="./styles.css">
+    <title>Opening CU Blueboard…</title>
+    <meta name="description" content="Open the live CU Blueboard application.">
+    <meta http-equiv="refresh" content="0; url=https://cu-blueboard-2025-e68ebfea4530.herokuapp.com/">
+    <link rel="canonical" href="https://cu-blueboard-2025-e68ebfea4530.herokuapp.com/">
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: #f4f8fc;
+        color: #15283b;
+      }
+
+      body {
+        min-height: 100vh;
+        margin: 0;
+        display: grid;
+        place-items: center;
+      }
+
+      main {
+        width: min(32rem, calc(100% - 3rem));
+        padding: 2.5rem;
+        border: 1px solid #d8e3ed;
+        border-radius: 1.25rem;
+        background: #fff;
+        box-shadow: 0 1.25rem 3rem rgba(27, 61, 89, 0.12);
+        text-align: center;
+      }
+
+      .mark {
+        display: grid;
+        width: 4rem;
+        height: 4rem;
+        margin: 0 auto 1.25rem;
+        place-items: center;
+        border-radius: 1rem;
+        background: #2f6f9f;
+        color: #fff;
+        font-weight: 800;
+        letter-spacing: 0.04em;
+      }
+
+      h1 {
+        margin: 0 0 0.75rem;
+        font-size: clamp(1.75rem, 5vw, 2.5rem);
+      }
+
+      p {
+        margin: 0 0 1.5rem;
+        color: #526b80;
+        line-height: 1.6;
+      }
+
+      a {
+        display: inline-block;
+        padding: 0.8rem 1.1rem;
+        border-radius: 0.7rem;
+        background: #2f6f9f;
+        color: #fff;
+        font-weight: 700;
+        text-decoration: none;
+      }
+    </style>
+    <script>
+      window.location.replace("https://cu-blueboard-2025-e68ebfea4530.herokuapp.com/");
+    </script>
   </head>
   <body>
-    <div class="page-shell">
-      <aside class="app-nav" aria-label="CU Blueboard navigation">
-        <a class="brand" href="./" aria-label="CU Blueboard home">
-          <span class="brand-mark">CU</span>
-          <span>
-            <strong>CU Blueboard</strong>
-            <small>Verified community</small>
-          </span>
-        </a>
-        <nav>
-          <a href="#board" class="active">Board</a>
-          <a href="#ask">Ask</a>
-          <a href="#moderation">Moderation</a>
-          <a href="https://github.com/zhstella/CU_Blueboard">Source</a>
-        </nav>
-        <a class="back-link" href="../">Back to zhstella.github.io</a>
-      </aside>
-
-      <main>
-        <section class="hero-panel" aria-label="CU Blueboard overview">
-          <div class="hero-copy">
-            <p class="eyebrow">Columbia and Barnard Q&A</p>
-            <h1>CU Blueboard</h1>
-            <p class="tagline">Verified community. Anonymous voice.</p>
-            <div class="hero-actions" aria-label="Primary links">
-              <a class="primary-action" href="#board">Enter board</a>
-              <a class="secondary-action" href="https://github.com/zhstella/CU_Blueboard">GitHub repo</a>
-            </div>
-          </div>
-
-          <div class="board-window hero-board-preview">
-            <div class="window-bar">
-              <span class="status-dot"></span>
-              <strong>Campus questions</strong>
-              <small>Static Pages preview</small>
-            </div>
-            <div class="search-row">
-              <span>Search housing, visas, courses...</span>
-              <span class="filter-pill">All topics</span>
-            </div>
-            <article class="thread-card answered">
-              <div class="thread-meta">
-                <span>Housing</span>
-                <span>Accepted answer</span>
-              </div>
-              <h2>How early should I look for fall sublets near campus?</h2>
-              <p>Most students start watching listings in late spring. Prioritize verified groups, ask for a video walk-through, and do not send a deposit before you confirm the lease details.</p>
-              <div class="thread-footer">
-                <span>4 answers</span>
-                <span>Anonymous Tiger 18</span>
-              </div>
-            </article>
-            <article class="thread-card">
-              <div class="thread-meta">
-                <span>International</span>
-                <span>Open</span>
-              </div>
-              <h2>What should I bring to my visa appointment?</h2>
-              <p>Checklist advice from other students, with room for campus staff to add the official link and mark the response as accepted.</p>
-              <div class="thread-footer">
-                <span>2 answers</span>
-                <span>Anonymous Lion 07</span>
-              </div>
-            </article>
-          </div>
-        </section>
-
-        <section class="board-section" id="board" aria-label="Campus question board">
-          <div class="section-head">
-            <p class="eyebrow">Board</p>
-            <h2>Campus questions</h2>
-          </div>
-          <div class="board-window board-window-large">
-            <div class="window-bar">
-              <span class="status-dot"></span>
-              <strong>Question feed</strong>
-              <small>Anonymous campus board</small>
-            </div>
-            <div class="search-row">
-              <span>Search housing, visas, courses...</span>
-              <span class="filter-pill">All topics</span>
-            </div>
-            <div class="thread-list">
-              <article class="thread-card answered">
-                <div class="thread-meta">
-                  <span>Housing</span>
-                  <span>Accepted answer</span>
-                </div>
-                <h2>How early should I look for fall sublets near campus?</h2>
-                <p>Most students start watching listings in late spring. Prioritize verified groups, ask for a video walk-through, and do not send a deposit before you confirm the lease details.</p>
-                <div class="thread-footer">
-                  <span>4 answers</span>
-                  <span>Anonymous Tiger 18</span>
-                </div>
-              </article>
-              <article class="thread-card">
-                <div class="thread-meta">
-                  <span>International</span>
-                  <span>Open</span>
-                </div>
-                <h2>What should I bring to my visa appointment?</h2>
-                <p>Checklist advice from other students, with room for campus staff to add the official link and mark the response as accepted.</p>
-                <div class="thread-footer">
-                  <span>2 answers</span>
-                  <span>Anonymous Lion 07</span>
-                </div>
-              </article>
-              <article class="thread-card">
-                <div class="thread-meta">
-                  <span>Academics</span>
-                  <span>Open</span>
-                </div>
-                <h2>Can I take COMS W4111 and a language intensive together?</h2>
-                <p>Students compare workload, project timing, reading pace, and office-hour planning for a balanced semester.</p>
-                <div class="thread-footer">
-                  <span>6 answers</span>
-                  <span>Anonymous Owl 23</span>
-                </div>
-              </article>
-            </div>
-          </div>
-        </section>
-
-        <section class="workspace" id="ask" aria-label="Question composer preview">
-          <div class="section-head">
-            <p class="eyebrow">Q&A workflow</p>
-            <h2>Structured answers without public identity pressure</h2>
-          </div>
-          <div class="workspace-grid">
-            <form class="composer">
-              <label>
-                Topic
-                <select aria-label="Topic">
-                  <option>Academics</option>
-                  <option>Housing</option>
-                  <option>Careers</option>
-                  <option>Wellness</option>
-                </select>
-              </label>
-              <label>
-                Question
-                <input value="Can I take COMS W4111 and a language intensive together?">
-              </label>
-              <label>
-                Details
-                <textarea rows="6">I am planning next semester and want a workload check from people who have taken both.</textarea>
-              </label>
-              <div class="composer-actions">
-                <button type="button">Preview</button>
-                <button type="button" class="submit-btn">Post anonymously</button>
-              </div>
-            </form>
-
-            <div class="insight-list">
-              <article>
-                <span class="insight-icon">1</span>
-                <h3>Verified access</h3>
-                <p>Campus SSO keeps the room limited to Columbia and Barnard students.</p>
-              </article>
-              <article>
-                <span class="insight-icon">2</span>
-                <h3>Anonymous threads</h3>
-                <p>Stable pseudonyms protect student privacy while preserving conversation continuity.</p>
-              </article>
-              <article>
-                <span class="insight-icon">3</span>
-                <h3>Accepted answers</h3>
-                <p>Question owners can mark the best reply so useful advice stays easy to find.</p>
-              </article>
-            </div>
-          </div>
-        </section>
-
-        <section class="moderation" id="moderation" aria-label="Moderation preview">
-          <div class="section-head">
-            <p class="eyebrow">Trust layer</p>
-            <h2>Built for accountability behind anonymity</h2>
-          </div>
-          <div class="moderation-grid">
-            <article class="metric-card">
-              <strong>AI screen</strong>
-              <span>Hate, harassment, violence, and self-harm checks before posts appear.</span>
-            </article>
-            <article class="metric-card">
-              <strong>Identity escrow</strong>
-              <span>Peers see anonymous names; severe violations remain traceable to staff.</span>
-            </article>
-            <article class="metric-card">
-              <strong>Audit trail</strong>
-              <span>Redactions, reveals, edits, and moderator actions stay reviewable.</span>
-            </article>
-          </div>
-        </section>
-      </main>
-    </div>
+    <main>
+      <div class="mark" aria-hidden="true">CU</div>
+      <h1>Opening CU Blueboard…</h1>
+      <p>You are being redirected to the live CU Blueboard application.</p>
+      <a href="https://cu-blueboard-2025-e68ebfea4530.herokuapp.com/">Open CU Blueboard</a>
+    </main>
   </body>
 </html>
