@@ -100,22 +100,31 @@
             <div id="filter-panel" class="filter-panel" hidden>
               <div class="filter-grid">
                 <label>Topic<select id="topic-filter"><option value="">All topics</option><option>Academics</option><option>Campus Life</option><option>Career</option><option>General</option><option>Housing</option><option>Wellness</option></select></label>
-                <label>Status<select id="status-filter"><option value="">All statuses</option><option value="open">Open</option><option value="solved">Solved</option></select></label>
-                <label>School<select id="school-filter"><option value="">All schools</option><option>Columbia</option><option>Barnard</option></select></label>
+                <label>Status<select id="status-filter"><option value="">All statuses</option><option value="open">Open</option><option value="solved">Solved</option><option value="locked">Locked</option></select></label>
+                <label>School<select id="school-filter"><option value="">All schools</option><option>Columbia</option><option>Barnard</option><option>General</option></select></label>
                 <label>Course<input id="course-filter" type="text" placeholder="e.g., COMS W4152"></label>
+                <label>Timeframe<select id="timeframe-filter"><option value="">Any time</option><option value="24h">Last 24 hours</option><option value="7d">Past 7 days</option><option value="30d">Past 30 days</option></select></label>
               </div>
               <div class="tag-section">
                 <span>Tags</span>
                 <div id="tag-filters" class="tag-options">
                   <label><input type="checkbox" value="Academics"><span>Academics</span></label>
+                  <label><input type="checkbox" value="Accessibility / ODS"><span>Accessibility / ODS</span></label>
                   <label><input type="checkbox" value="Advising"><span>Advising</span></label>
                   <label><input type="checkbox" value="Career"><span>Career</span></label>
                   <label><input type="checkbox" value="Courses / COMS"><span>Courses / COMS</span></label>
+                  <label><input type="checkbox" value="Financial Aid"><span>Financial Aid</span></label>
                   <label><input type="checkbox" value="Housing"><span>Housing</span></label>
+                  <label><input type="checkbox" value="International"><span>International</span></label>
+                  <label><input type="checkbox" value="Marketplace"><span>Marketplace</span></label>
                   <label><input type="checkbox" value="Mental Health"><span>Mental Health</span></label>
+                  <label><input type="checkbox" value="Public Safety"><span>Public Safety</span></label>
                   <label><input type="checkbox" value="Resources"><span>Resources</span></label>
                   <label><input type="checkbox" value="Student Life"><span>Student Life</span></label>
+                  <label><input type="checkbox" value="Tech Support"><span>Tech Support</span></label>
+                  <label><input type="checkbox" value="Visas &amp; Immigration"><span>Visas &amp; Immigration</span></label>
                 </div>
+                <div class="tag-match-row"><label><input type="radio" name="tag-match" value="all" checked> Match all</label><label><input type="radio" name="tag-match" value="any"> Match any</label></div>
               </div>
               <div class="filter-actions"><button id="apply-filters" type="button">Apply Filters</button><button id="reset-filters" type="button">Reset All</button></div>
             </div>
@@ -155,27 +164,13 @@
           </div>
         </div>
 
-        <section id="moderation-view" class="moderation-view" hidden>
-          <div class="moderation-heading"><div><p class="eyebrow">Staff tools</p><h1>Moderation Dashboard</h1></div><button id="back-to-board" type="button">Back to posts</button></div>
-          <div class="moderation-stats"><article><strong>2</strong><span>AI flagged</span></article><article><strong>1</strong><span>Appeal pending</span></article><article><strong>2</strong><span>Redacted items</span></article></div>
-          <div class="moderation-queue">
-            <article><span class="queue-badge ai">AI flagged</span><h2>This professor is terrible and should be fired</h2><p>Review potentially harassing content and decide whether to redact or clear the flag.</p><div><button type="button" data-review-action="Redacted">Redact</button><button type="button" data-review-action="Flag cleared">Clear flag</button></div></article>
-            <article><span class="queue-badge appeal">Appeal pending</span><h2>Looking for exam answers - will pay!!</h2><p>The author requested a second review of the moderation decision.</p><div><button type="button" data-review-action="Appeal approved">Approve appeal</button><button type="button" data-review-action="Appeal denied">Deny appeal</button></div></article>
-          </div>
-        </section>
+        <section id="post-view" hidden></section>
+        <section id="form-view" hidden></section>
+        <section id="moderation-view" hidden></section>
+        <section id="stats-view" hidden></section>
       </main>
     </section>
 
-    <dialog id="post-dialog" class="dialog post-dialog"><button class="dialog-close" type="button" data-close-dialog aria-label="Close">×</button><div id="post-detail"></div></dialog>
-    <dialog id="create-dialog" class="dialog create-dialog">
-      <button class="dialog-close" type="button" data-close-dialog aria-label="Close">×</button><p class="eyebrow">New anonymous thread</p><h2>Create Post</h2>
-      <form id="create-form">
-        <label>Title<input id="new-title" required maxlength="120" placeholder="What would you like to ask?"></label>
-        <div class="form-grid"><label>Topic<select id="new-topic"><option>General</option><option>Academics</option><option>Campus Life</option><option>Career</option><option>Housing</option><option>Wellness</option></select></label><label>School<select id="new-school"><option>Columbia</option><option>Barnard</option></select></label></div>
-        <label>Details<textarea id="new-body" required rows="6" placeholder="Add enough context for the community to help..."></textarea></label>
-        <div class="dialog-actions"><button class="secondary" type="button" data-close-dialog>Cancel</button><button class="primary" type="submit">Post anonymously</button></div>
-      </form>
-    </dialog>
     <div id="toast" class="toast" role="status" aria-live="polite"></div>
   </body>
 </html>
