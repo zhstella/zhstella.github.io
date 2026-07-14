@@ -3,79 +3,172 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Opening CU Blueboard…</title>
-    <meta name="description" content="Open the live CU Blueboard application.">
-    <meta http-equiv="refresh" content="0; url=https://cu-blueboard-2025-e68ebfea4530.herokuapp.com/">
-    <link rel="canonical" href="https://cu-blueboard-2025-e68ebfea4530.herokuapp.com/">
-    <style>
-      :root {
-        color-scheme: light;
-        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-        background: #f4f8fc;
-        color: #15283b;
-      }
-
-      body {
-        min-height: 100vh;
-        margin: 0;
-        display: grid;
-        place-items: center;
-      }
-
-      main {
-        width: min(32rem, calc(100% - 3rem));
-        padding: 2.5rem;
-        border: 1px solid #d8e3ed;
-        border-radius: 1.25rem;
-        background: #fff;
-        box-shadow: 0 1.25rem 3rem rgba(27, 61, 89, 0.12);
-        text-align: center;
-      }
-
-      .mark {
-        display: grid;
-        width: 4rem;
-        height: 4rem;
-        margin: 0 auto 1.25rem;
-        place-items: center;
-        border-radius: 1rem;
-        background: #2f6f9f;
-        color: #fff;
-        font-weight: 800;
-        letter-spacing: 0.04em;
-      }
-
-      h1 {
-        margin: 0 0 0.75rem;
-        font-size: clamp(1.75rem, 5vw, 2.5rem);
-      }
-
-      p {
-        margin: 0 0 1.5rem;
-        color: #526b80;
-        line-height: 1.6;
-      }
-
-      a {
-        display: inline-block;
-        padding: 0.8rem 1.1rem;
-        border-radius: 0.7rem;
-        background: #2f6f9f;
-        color: #fff;
-        font-weight: 700;
-        text-decoration: none;
-      }
-    </style>
-    <script>
-      window.location.replace("https://cu-blueboard-2025-e68ebfea4530.herokuapp.com/");
-    </script>
+    <meta name="description" content="CU BlueBoard — a verified anonymous Q&A community for Columbia and Barnard.">
+    <title>CU BlueBoard</title>
+    <link rel="icon" href="https://raw.githubusercontent.com/zhstella/CU_Blueboard/main/public/icon.png">
+    <link rel="stylesheet" href="./styles.css">
+    <script src="./app.js" defer></script>
   </head>
   <body>
-    <main>
-      <div class="mark" aria-hidden="true">CU</div>
-      <h1>Opening CU Blueboard…</h1>
-      <p>You are being redirected to the live CU Blueboard application.</p>
-      <a href="https://cu-blueboard-2025-e68ebfea4530.herokuapp.com/">Open CU Blueboard</a>
+    <header class="site-header">
+      <a class="brand" href="./" aria-label="CU BlueBoard home">
+        <img src="https://raw.githubusercontent.com/zhstella/CU_Blueboard/main/app/assets/images/logos/cubb_owl.jpg" alt="CU BlueBoard logo">
+        <span class="brand-copy">
+          <strong>CU BlueBoard</strong>
+          <small>Columbia &amp; Barnard</small>
+        </span>
+      </a>
+
+      <p class="signed-in">Static campus preview</p>
+
+      <nav aria-label="Primary navigation">
+        <button class="nav-button active" type="button" data-view="all">Board</button>
+        <button class="nav-button" type="button" data-view="bookmarks">Bookmarks</button>
+        <button class="nav-button" type="button" data-view="mine">My threads</button>
+        <a href="../">Portfolio</a>
+      </nav>
+    </header>
+
+    <main class="app-shell">
+      <section class="action-bar" aria-label="Search and filter posts">
+        <form id="search-form" class="search-row">
+          <label class="search-box" for="search-field">
+            <svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.3-4.3"></path>
+            </svg>
+            <span class="sr-only">Search</span>
+            <input id="search-field" type="search" placeholder="Search posts..." autocomplete="off">
+          </label>
+
+          <button class="search-submit" type="submit" title="Apply filters" aria-label="Apply filters">→</button>
+          <button id="filter-toggle" class="filter-toggle" type="button" aria-expanded="false" aria-controls="filter-panel">
+            <svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="4" x2="4" y1="21" y2="14"></line><line x1="4" x2="4" y1="10" y2="3"></line>
+              <line x1="12" x2="12" y1="21" y2="12"></line><line x1="12" x2="12" y1="8" y2="3"></line>
+              <line x1="20" x2="20" y1="21" y2="16"></line><line x1="20" x2="20" y1="12" y2="3"></line>
+              <line x1="2" x2="6" y1="14" y2="14"></line><line x1="10" x2="14" y1="8" y2="8"></line><line x1="18" x2="22" y1="16" y2="16"></line>
+            </svg>
+            <span>Filters</span>
+            <span id="filter-count" class="filter-count" hidden>0</span>
+            <span id="filter-chevron" aria-hidden="true">▼</span>
+          </button>
+          <button id="create-post" class="create-post" type="button"><span>+</span> Create Post</button>
+        </form>
+
+        <div id="filter-panel" class="filter-panel" hidden>
+          <div class="filter-grid">
+            <label>Topic
+              <select id="topic-filter">
+                <option value="">All topics</option>
+                <option>Academics</option><option>Campus Life</option><option>Career</option>
+                <option>General</option><option>Housing</option><option>Wellness</option>
+              </select>
+            </label>
+            <label>Status
+              <select id="status-filter">
+                <option value="">All statuses</option><option value="open">Open</option><option value="solved">Solved</option>
+              </select>
+            </label>
+            <label>School
+              <select id="school-filter">
+                <option value="">All schools</option><option>Columbia</option><option>Barnard</option>
+              </select>
+            </label>
+            <label>Course
+              <input id="course-filter" type="text" placeholder="e.g., COMS W4152">
+            </label>
+          </div>
+          <div class="tag-section">
+            <span>Tags</span>
+            <div id="tag-filters" class="tag-options">
+              <label><input type="checkbox" value="Academics"><span>Academics</span></label>
+              <label><input type="checkbox" value="Advising"><span>Advising</span></label>
+              <label><input type="checkbox" value="Career"><span>Career</span></label>
+              <label><input type="checkbox" value="Courses / COMS"><span>Courses / COMS</span></label>
+              <label><input type="checkbox" value="Housing"><span>Housing</span></label>
+              <label><input type="checkbox" value="Mental Health"><span>Mental Health</span></label>
+              <label><input type="checkbox" value="Resources"><span>Resources</span></label>
+              <label><input type="checkbox" value="Student Life"><span>Student Life</span></label>
+            </div>
+          </div>
+          <div class="filter-actions">
+            <button id="apply-filters" type="button">Apply Filters</button>
+            <button id="reset-filters" type="button">Reset All</button>
+          </div>
+        </div>
+      </section>
+
+      <div class="feed-layout">
+        <section class="feed-main" aria-live="polite">
+          <div class="view-heading">
+            <div>
+              <p class="eyebrow">Verified community · anonymous voice</p>
+              <h1 id="view-title">Campus questions</h1>
+            </div>
+            <span id="result-count" class="result-count"></span>
+          </div>
+          <div id="posts" class="post-list"></div>
+          <div id="empty-state" class="empty-state" hidden>
+            <strong>No posts found</strong>
+            <p>Try changing your search or filters.</p>
+          </div>
+        </section>
+
+        <aside class="feed-sidebar" aria-label="Campus resources">
+          <section class="sidebar-card">
+            <h2>Campus Resources</h2>
+            <ul>
+              <li><a href="https://www.columbia.edu" target="_blank" rel="noopener"><span>◎</span>Columbia Main Page</a></li>
+              <li><a href="https://barnard.edu/" target="_blank" rel="noopener"><span>◎</span>Barnard Main Page</a></li>
+              <li><a href="https://health.columbia.edu/content/counseling-and-psychological-services" target="_blank" rel="noopener"><span>♡</span>Counseling (CPS)</a></li>
+              <li><a href="https://publicsafety.columbia.edu/" target="_blank" rel="noopener"><span>♢</span>Public Safety</a></li>
+              <li><a href="https://health.columbia.edu/" target="_blank" rel="noopener"><span>⊞</span>Columbia Health</a></li>
+              <li><a href="https://sexualrespect.columbia.edu/" target="_blank" rel="noopener"><span>♧</span>Sexual Respect</a></li>
+            </ul>
+          </section>
+          <section class="sidebar-card">
+            <h2>Quick Links</h2>
+            <ul>
+              <li><a href="https://vergil.registrar.columbia.edu/" target="_blank" rel="noopener"><span>↗</span>Vergil / Classes</a></li>
+              <li><a href="https://ssol.columbia.edu/" target="_blank" rel="noopener"><span>↗</span>SSOL</a></li>
+              <li><a href="https://transportation.columbia.edu/" target="_blank" rel="noopener"><span>↗</span>Shuttle Bus</a></li>
+            </ul>
+          </section>
+          <section class="about-card">
+            <strong>GitHub Pages edition</strong>
+            <p>This static build keeps search, filters, bookmarks, post details, and local drafts in your browser.</p>
+            <a href="https://github.com/zhstella/CU_Blueboard" target="_blank" rel="noopener">View Rails source ↗</a>
+          </section>
+        </aside>
+      </div>
     </main>
+
+    <dialog id="post-dialog" class="dialog post-dialog">
+      <button class="dialog-close" type="button" data-close-dialog aria-label="Close">×</button>
+      <div id="post-detail"></div>
+    </dialog>
+
+    <dialog id="create-dialog" class="dialog create-dialog">
+      <button class="dialog-close" type="button" data-close-dialog aria-label="Close">×</button>
+      <p class="eyebrow">New anonymous thread</p>
+      <h2>Create Post</h2>
+      <form id="create-form">
+        <label>Title<input id="new-title" required maxlength="120" placeholder="What would you like to ask?"></label>
+        <div class="form-grid">
+          <label>Topic
+            <select id="new-topic"><option>General</option><option>Academics</option><option>Campus Life</option><option>Career</option><option>Housing</option><option>Wellness</option></select>
+          </label>
+          <label>School<select id="new-school"><option>Columbia</option><option>Barnard</option></select></label>
+        </div>
+        <label>Details<textarea id="new-body" required rows="6" placeholder="Add enough context for the community to help..."></textarea></label>
+        <div class="dialog-actions">
+          <button class="secondary" type="button" data-close-dialog>Cancel</button>
+          <button class="primary" type="submit">Post anonymously</button>
+        </div>
+      </form>
+    </dialog>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
   </body>
 </html>
